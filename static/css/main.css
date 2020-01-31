@@ -1,0 +1,43 @@
+.h-100px {
+  height: 100px;
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
+.h-100per {
+  height: 100%;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.w-100per {
+  width: 100%;
+}
+
+.w-25per {
+  width: 25%;
+}
+
+.w-20vw {
+  width: 20vw;
+}
+
+.mar-top-100px {
+  margin-top: 100px;
+}
+
+.mar-left-20vw {
+  margin-left: 20vw;
+}
+
+.yellow {
+  background-color: #e6b800!important;
+}
+
+.hide {
+  display: none;
+}

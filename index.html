@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <link rel="stylesheet" href="./HW1/css/main.css" type="text/css">
-        <meta charset="utf-8">
-        <title>MART 441 Website</title>
-        <script src="./HW1/js/main.js"></script>
-    </head>
-    <body>
-        Stuff Goes Here
-        <a href="./HW2">HomeWork 2</a>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./static/css/main.css">
+    <link rel="stylesheet" href="./static/css/w3.css">
+    <title>Week 2</title>
+  </head>
+  <body class="w3-light-blue w3-over">
+    <div class="w3-dark-grey w3-top w3-left w3-right h-100px">
+      <div class="w3-container">
+        <h4>Cody Hill-Boss</h4>
+        <h6>Web Technologies</h6>
+      </div>
+    </div>
+    <div class="w3-right w3-twothird h-100per mar-top-100px w-100per">
+      <div id="WebTech" class="h-100vh">
+        <p>Homework 1 is mainly incorporated in Homework 2</p>
+        <a class="w3-large w3-button w3-hover-orange" href="./HW1/">Homework 1</a>
+        <p>Homework 2 uses js to print to the console</p>
+        <a class="w3-large w3-button w3-hover-orange" href="./HW2/">Homework 2</a>
+      </div>
+      <div id="AdvPrg" class="hide h-100vh">
+        <p>Week one is just three html pages and a litte css.</p>
+        <a class="w3-large w3-button w3-hover-orange" href="./Week1/templates/">Week 1</a>
+        <p>Week 2 is a form with an image, button, and description for an ecomerce site</p>
+        <a class="w3-large w3-button w3-hover-orange" href="./Week2/">Week 2</a>
+        <!--
+        <a class="w3-button w3-hover-orange" href="./Week2/">Week 2</a>
+        <a class="w3-button w3-hover-orange" href="./Week2/">Week 2</a>
+        <a class="w3-button w3-hover-orange" href="./Week2/">Week 2</a>
+        -->
+
+      </div>
+    </div>
+    <div class="w3-blue w3-left w3-third h-100vh mar-top-100px">
+      <div class="w3-container">
+        <hr>
+        <div onclick="toggle_index_info('AdvPrg', 'WebTech')" class="w3-btn yellow w-100per">Advanced Programming</div>
+        <br><br>
+        <div onclick="toggle_index_info('WebTech', 'AdvPrg')" class="w3-btn yellow w-100per">Web Technologies</div>
+      </div>
+    </div>
+  </body>
+  <script src="./static/js/main.js"></script>
 </html>

@@ -4,17 +4,34 @@
 //
 //
 
-function choice1(choice) {
-    if (choice == 'run') {
 
-    }
-    else if (choice == 'hide') {
+Uchoice = [-1,-1,-1];
+Rchoice = [-1,-1,-1];
 
-    }
-    else if (choice == 'fight') {
+i = 0;
 
+function rand_choice() {
+  return Math.floor(Math.random() * 3);
+}
+
+
+
+function choice(choice) {
+    if (choice == 'fight') {
+      Uchoice[i] = 0;
+    } else if (choice == 'hide') {
+      Uchoice[i] = 0;
+    } else if (choice == 'run') {
+      Uchoice[i] = 0;
+    } else {
+      Uchoice[i] = rand_choice();
     }
-    else {
-        random('choice1');
-    }
+    Rchoice[i] = rand_choice();
+    i++;
+    update_story()
+}
+
+function update_story() {
+  story = document.getElementById('Story');
+  story.innerHTML += "HELLO \n this is me\n\n hhh"
 }
