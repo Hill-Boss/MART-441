@@ -19,7 +19,11 @@ Please include a readme that discusses your successes, challenges, and
 how you overcame them.
 
 Successes:
-used onclick to run a js function that added to the story in the DOM.
+used onclick to run a js function
+updating the story.
+ending the story on bad choice or reaching the end.
+
 
 Challenges:
 being creative with a story.
+setting up logic for choices.
