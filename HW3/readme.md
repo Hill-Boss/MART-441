@@ -19,5 +19,7 @@ Please include a readme that discusses your successes, challenges, and
 how you overcame them.
 
 Successes:
+used onclick to run a js function that added to the story in the DOM.
 
 Challenges:
+being creative with a story.
