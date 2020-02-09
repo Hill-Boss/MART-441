@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="./css/w3.css" type="text/css">
+    <link rel="stylesheet" href="./css/main.css" type="text/css">
+
+    <meta charset="utf-8">
+    <title>MART 441 Website</title>
+  </head>
+  <body>
+    <div class="w3-light-blue w3-top w3-bottom w3-left w3-right w3-center">
+      <div id="Story" class="center_h center_w" style="text-align:left;">
+          Once upon a time, there lived a King who only knew war.
+          For as long as he reigned, his nation was at war with at least three others.
+          You have been conscripted into his royal army.
+          You have been marching for months towards your first battle.
+          Once the battle starts,
+      </div>
+      <div id="restart" class="hide center_h center_w w3-center" style="text-align:center; overflow:hidden;">
+        <input class="w3-btn w3-white w3-hover-light-green" onclick="Restart()" name="restart" value="Restart">
+      </div>
+      <div id="choices" class="w3-center max-w-30per" style="text-align:center; overflow:hidden; margin-left:35%">
+        <p>
+          <h4>What do you do?</h4>
+          <h3>Fight? &emsp; Run? &emsp; Hide?</h3>
+        </p>
+
+        <input id="input" class="w3-input" style="width:66%; float:left" type="text" name="choice" placeholder="First name" width="60vw" required>
+        <input class="w3-btn w3-white w3-hover-light-green w3-right" style="width:33%; float:left;" onclick="get_input()" name="submit" value="Submit">
+
+      </div>
+    </div>
+  </body>
+  <script src="./js/main.js"></script>
+</html>
