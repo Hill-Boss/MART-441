@@ -1,0 +1,21 @@
+.center_w {
+  margin-left:25%;
+  margin-right:25%;"
+
+}
+
+.center_h {
+  margin-top:50px;
+}
+
+.float {
+  float: left;
+}
+
+.max-w-30per {
+  max-width: 30%;
+}
+
+.hide {
+  display: none;
+}
