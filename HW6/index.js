@@ -13,7 +13,7 @@ function getInfo() {
         "<input class=\"w3-input\" type=\"text\" name=\"lastname\" placeholder=\"Last name\"><br>" +
         "<label for=\"age\"></label>" +
         "<input class=\"w3-input\" type=\"text\" name=\"age\" placeholder=\"Age\"><br>" +
-        "<div class=\"w3-btn w3-green\" onclick=\"gotoPage(\'Game/index.html\');\">Start Game</div>";
+        "<div class=\"w3-btn w3-green\" onclick=\"gotoPage(\'./Game/\');\">Start Game</div>";
 }
 
 function setInfo() {
