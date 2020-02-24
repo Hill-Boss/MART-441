@@ -89,7 +89,7 @@ function flip_flop(i) {
     fields['attempts']++;
     flipped = [];
     if (check_done()) {
-        gotoPage('./Final/')
+        gotoPage('../Final/')
     }
   } else {
     flip(i);
