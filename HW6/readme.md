@@ -1,0 +1,1 @@
+Finished the memory game, user enters info on index.html in HW6 Start takes them to /Game/ this loads the index.html for /Game/ then once all matches are found /Final/ is loaded which displays firstname lastname, age and attempts.
