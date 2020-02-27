@@ -49,7 +49,7 @@ function add_backs(n) {
     h = back_h * scale
 
     for (i = 0; i < n; i++) {
-        page.innerHTML += "<img id='" + id[i] + "' onclick='flip_flop(" + id[i] + ")' src='" + path + card_back +
+        page.innerHTML += "<img id='" + id[i] + "' src='" + path + card_back +
             "' width='" + w + "' height='" + h + "'>"
     }
 }
@@ -61,6 +61,9 @@ function sleep(ms, callFunction, arg) {
 
 function Start() {
     flop(id);
+    for (i = 0; i < id.length; i++) {
+        document.getElementById(id[i]).onclick = flip_flop("this.id");
+    }
 }
 
 // https://gomakethings.com/how-to-shuffle-an-array-with-vanilla-js/
