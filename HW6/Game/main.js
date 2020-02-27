@@ -62,7 +62,7 @@ function sleep(ms, callFunction, arg) {
 function Start() {
     flop(id);
     for (i = 0; i < id.length; i++) {
-        document.getElementById(id[i]).onclick = flip_flop("this.id");
+        document.getElementById(id[i]).setAttribute("onclick","flip_flop(this.id);"); 
     }
 }
 
