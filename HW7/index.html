@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>MART 441 Website</title>
+  <link rel="stylesheet" href="./css/w3.css" type="text/css">
+  <link rel="stylesheet" href="./css/main.css" type="text/css">
+  <script src="./index.js"></script>
+</head>
+
+<body onload="createObjects();">
+  <div class="w3-light-blue w3-top w3-bottom w3-left w3-right" style="overflow-y:scroll;">
+    <div id="object" class="hide w3-full center_h" style="margin-top:20px">
+        <h4 id="object-Title" class="w3-center"></h4>
+        <br>
+        <div class="w3-center">
+            <img id="object-Img" src="">
+        </div>
+        <br>
+        <div class="">
+            <p id="object-Desc" style="font-size:35px; max-width:50vw; margin-left:25vw;"></p>
+
+        </div>
+        <br>
+        <h3 id="object-Auth" class="w3-center">Artist: </h3>
+        <h6 id="object-Year" class="w3-center">Year: </h6>
+        <br><br><br>
+    </div>
+    <div class="center_h center_w w3-center" style="text-align:center; overflow:hidden; margin-bottom:20vh;">
+      <input class="w3-btn w3-white w3-hover-light-green" onclick="getObject()" type="submit" value="Get Object">
+    </div>
+  </div>
+</body>
+</html>
