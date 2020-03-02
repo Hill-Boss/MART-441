@@ -67,12 +67,14 @@ function createObjects() {
 }
 
 function getObject() {
+  if (document.getElementById('object').classList.contains('hide')) {
+    document.getElementById('object').classList.toggle('hide');
+  }
     paintings = objects[parseInt(Math.random()*100, 10)%5];
     document.getElementById('object-Title').innerHTML = paintings.Title;
     document.getElementById('object-Img').src = paintings.Image;
     document.getElementById('object-Desc').innerHTML = paintings.Description;
-    document.getElementById('object-Auth').innerHTML += paintings.Author;
-    document.getElementById('object-Year').innerHTML += paintings.ImageYear;
+    document.getElementById('object-Auth').innerHTML = "Author: " + paintings.Author;
+    document.getElementById('object-Year').innerHTML = "Year " + paintings.ImageYear;
 
-    document.getElementById('object').classList.toggle('hide');
 }
