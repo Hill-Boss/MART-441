@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>MART 441 Website</title>
+  <link rel="stylesheet" href="./css/w3.css" type="text/css">
+  <link rel="stylesheet" href="./css/main.css" type="text/css">
+</head>
+
+<body onload="createObjects();">
+  <div class="w3-light-blue w3-top w3-bottom w3-left w3-right" style="overflow-y:scroll;">
+    <div id="In" class="center_h center_w w3-center" style="text-align:center; overflow:hidden;">
+      <input class="w3-btn w3-white w3-hover-light-green" type="submit" value="Get Object">
+    </div>
+    <div id="Out" class="center_h center_w w3-center" style="text-align:center; overflow:hidden;display:none;">
+      <input class="w3-btn w3-white w3-hover-light-green" type="submit" value="Remove Object">
+    </div>
+
+    <div id="object" class="hide w3-full center_h" style="margin-top:20px">
+        <h4 id="object-Title" class="w3-center" style="display:none;position:relative;"></h4>
+        <br>
+        <div class="w3-center" style="position:relative;">
+            <img id="object-Img" src="" style="display:none;">
+        </div>
+        <br>
+        <div class="" style="display:none;position:relative;">
+            <p id="object-Desc" style="font-size:25px; max-width:50vw; margin-left:25vw;"></p>
+        </div>
+        <br>
+        <h3 id="object-Auth" class="w3-center" style="display:none;position:relative;">Artist: </h3>
+        <h6 id="object-Year" class="w3-center" style="display:none;position:relative;">Year: </h6>
+        <br><br><br>
+        <p id="info" class="w3-center">All information from <a href="https://www.boredpanda.com/famous-artists-last-works/">Here</a></p>
+    </div>
+  </div>
+  <script src="./libs/jquery-3.4.1.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>
