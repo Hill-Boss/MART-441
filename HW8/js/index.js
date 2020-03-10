@@ -64,6 +64,9 @@ function createObjects() {
     for (var i = 0; i < Titles.length; i++) {
         objects.push(new MyObject(Titles[i], Images[i], Descriptions[i], Authors[i], ImageYears[i]))
     }
+    // for (var i = 0; i < 1; i++) {
+    //     document.getElementById('body').innerHTML += "<div id='box_" + i + "' class='box' style='position:absolute;background:red;height:100px;width:100px;'></div>"
+    // }
 }
 
 function getObject() {
@@ -80,36 +83,114 @@ function getObject() {
 }
 
 $(document).ready(function() {
-    $("#In").click(function() {
-        $(this).hide();
-        $("#Out").show();
-
-        getObject();
-        $("#object-Title").fadeIn(1000);
-        $("#object-Img").fadeIn(3000);
-        $("#object-Desc").fadeIn(3000);
-        $("#object-Auth").fadeIn(4000);
-        $("#object-Year").fadeIn(5000);
-        $("#info").fadeIn(1000);
-
+    $("#Start").click(function() {
+        draw();
+        draw1();
     });
-    $("#Out").click(function() {
-        $(this).hide();
-        $("#In").show();
-
-        $("#object-Title").fadeOut(1000);
-        $("#object-Img").fadeOut(1000);
-        $("#object-Desc").fadeOut(1000);
-        $("#object-Auth").fadeOut(1000);
-        $("#object-Year").fadeOut (1000);
-        $("#info").fadeOut(1000);
-
-    });
-
-    // $("#Start").click(function(){
-    //   $("div").animate({
-    //     height: '150px',
-    //     width: '150px'
-    //   });
-    // });
 });
+
+function draw() {
+    $("#object-Title").fadeIn(1000, getObject);
+    $("#object-Img").fadeIn(1000);
+    $("#object-Desc").fadeIn(1000);
+    $("#object-Auth").fadeIn(1000);
+    $("#object-Year").fadeIn(1000);
+    $("#info").fadeIn(1000);
+
+    $("#object-Title").fadeOut(1000);
+    $("#object-Img").fadeOut(1000);
+    $("#object-Desc").fadeOut(1000);
+    $("#object-Auth").fadeOut(1000);
+    $("#object-Year").fadeOut (1000);
+    $("#info").fadeOut(1000, draw);
+
+}
+function draw1() {
+    $("#box_2").fadeIn();
+
+    $("#box_2")
+    .animate({
+        right: '200px',
+        opacity: '0.5',
+        height: '100px',
+        width: '100px'
+    })
+    .animate({
+        top: '200px',
+        opacity: '1',
+        height: '150px',
+        width: '150px'
+    })
+    .animate({
+        right: '50px',
+        opacity: '0.5',
+        height: '100px',
+        width: '100px'
+    })
+    .animate({
+        top: '50px',
+        opacity: '0.5',
+        height: '50px',
+        width: '50px'
+    });
+
+    $("#box_2").fadeOut(draw2);
+    // draw2();
+}
+
+function draw2() {
+    $("#box_1").fadeIn();
+
+    $("#box_1")
+    .animate({
+        left: '200px',
+        opacity: '0.5',
+        height: '100px',
+        width: '100px'
+    })
+    .animate({
+        top: '200px',
+        opacity: '1',
+        height: '150px',
+        width: '150px'
+    })
+    .animate({
+        left: '50px',
+        opacity: '0.5',
+        height: '100px',
+        width: '100px'
+    })
+    .animate({
+        top: '50px',
+        opacity: '0.5',
+        height: '50px',
+        width: '50px'
+    });
+
+    $("#box_1").fadeOut(draw3);
+    // draw3();
+}
+
+function draw3() {
+    $("#box_0").fadeIn();
+
+    $("#box_0")
+    .animate({
+        left: '0%',
+        width: '100%',
+    }, 2000)
+    .animate({
+        left: '100%',
+        width: '0%'
+    }, 2000)
+    .animate({
+        left: '0%',
+        width: '100%',
+    }, 2000)
+    .animate({
+        width: '0%',
+    }, 2000)
+
+    $("#box_0").fadeOut(draw1);
+    // draw();
+}
