@@ -19,26 +19,23 @@ class Mycanvas {
 
     Shape(id, type, x, y, r, color) {
         this.objs[id] = {'type':type, 'x':x, 'y':y, 'r':r, 'c':color};
-        console.log(this.objs);
+        // console.log(this.objs);
     }
 
     drawByID(id) {
         if (this.objs[id].type == 'rect') {
             this.context.fillStyle = this.objs[id].c;
             this.context.fillRect(this.objs[id].x, this.objs[id].y, this.objs[id].r, this.objs[id].r);
+        } else if (this.objs[id].type == 'circle') {
+            this.context.fillStyle = this.objs[id].c;
+            this.context.arc(this.objs[id].x, this.objs[id].y, this.objs[id].r, 0, 2*Math.PI, false);
         }
         this.context.fill();
     }
 
     drawAll() {
         for (const id in this.objs) {
-            var shape = this.objs[id];
-            // console.log(shape);
-            if (shape.type == 'rect') {
-                this.context.fillStyle = shape.c;
-                this.context.fillRect(shape.x, shape.y, shape.r, shape.r);
-            }
-            this.context.fill();
+            this.drawByID(id);
         }
     }
 
@@ -55,7 +52,8 @@ function update() {
 }
 
 function start() {
-    CNVS.Shape(0,'rect', 50, 50, 50, "#550000");
+    // change circle to rect
+    CNVS.Shape(0,'circle', 50, 50, 50, "#550000");
     CNVS.Shape(1,'rect', 150, 50, 50, "#00eeee");
     update();
 }
@@ -81,7 +79,7 @@ function randomWalk(n) {
 function getKey(event) {
     var char = event.which || event.keyCode;
     var actualLetter = String.fromCharCode(char);
-    console.log(actualLetter);
+    // console.log(actualLetter);
     speed = 5;
     if (true || !collisions(speed, actualLetter)) {
         if (actualLetter == 'w') {
