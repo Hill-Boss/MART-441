@@ -83,7 +83,7 @@ function getKey(event) {
     var actualLetter = String.fromCharCode(char);
     console.log(actualLetter);
     speed = 5;
-    if (!collisions(speed, actualLetter)) {
+    if (true || !collisions(speed, actualLetter)) {
         if (actualLetter == 'w') {
             CNVS.Shape(0, CNVS.objs[0].type, CNVS.objs[0].x, CNVS.objs[0].y - speed, CNVS.objs[0].r, CNVS.objs[0].c);
         } else if (actualLetter == 'a') {
@@ -97,7 +97,7 @@ function getKey(event) {
     update();
 }
 
-function collisions(id, speed, dir) {
+function collisions(ida, speed, dir) {
     for (const idb in CNVS.objs) {
         if (ida != idb) {
             if (CNVS.objs[ida].x + CNVS.objs[ida].r ) {
