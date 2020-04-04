@@ -53,17 +53,37 @@ function update() {
 
 function start() {
     // change circle to rect
-    CNVS.Shape(0,'circle', 50, 50, 50, "#550000");
+    CNVS.Shape(0,'rect', 50, 50, 50, "#550000");
     CNVS.Shape(1,'rect', 150, 50, 50, "#00eeee");
     update();
 }
 
-function moveShape(id, x=null, y=null) {
-    if (x == null && y == null) {
-        x = randomWalk(40);
-        y = randomWalk(40);
+function moveShape(id) {
+    dir = '';
+    val = 40;
+    x=0;
+    y=0;
+    if (randomWalk(val) > 0) { // decide direction
+        x = randomWalk(val);
+        if (x > 0) {
+            dir = 'd';
+        } else {
+            dir = 'a';
+        }
+        speed = x;
+    } else {
+        y = randomWalk(val);
+        if (y > 0) {
+            dir = 's';
+        } else {
+            dir = 'w';
+        }
+        speed = y;
     }
-    CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x + x, CNVS.objs[id].y + y, CNVS.objs[id].r, CNVS.objs[id].c);
+
+    if (!collisions(id, [Math.abs(speed), dir])) {
+        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x + x, CNVS.objs[id].y + y, CNVS.objs[id].r, CNVS.objs[id].c);
+    }
     // CNVS.drawByID(id)
 }
 
@@ -81,7 +101,7 @@ function getKey(event) {
     var actualLetter = String.fromCharCode(char);
     // console.log(actualLetter);
     speed = 5;
-    if (true || !collisions(speed, actualLetter)) {
+    if (!collisions(0, [speed, actualLetter])) {
         if (actualLetter == 'w') {
             CNVS.Shape(0, CNVS.objs[0].type, CNVS.objs[0].x, CNVS.objs[0].y - speed, CNVS.objs[0].r, CNVS.objs[0].c);
         } else if (actualLetter == 'a') {
@@ -95,16 +115,90 @@ function getKey(event) {
     update();
 }
 
-function collisions(ida, speed, dir) {
+function collisions(ida, v) {
+    collision = false;
     for (const idb in CNVS.objs) {
         if (ida != idb) {
-            if (CNVS.objs[ida].x + CNVS.objs[ida].r ) {
-
+            if (wouldCollide(CNVS.objs[ida], CNVS.objs[idb], v)) {
+                collision = true;
             }
         }
     }
     // TODO: Check wall collisions
-    if (true) {
+    if (!collision) {
+        collision = wouldCollideWall(ida, v);
+    }
+    return collision;
+}
+function wouldCollideWall(id, v) {
+    T = wouldCollide(CNVS.objs[id], {'y': -50, 'x':-50, 'width':CNVS.cnvs.width + 100, 'height':50}, v, true);
+    L = wouldCollide(CNVS.objs[id], {'y': -50, 'x':-50, 'width':50, 'height':CNVS.cnvs.height + 100}, v, true);
+    R = wouldCollide(CNVS.objs[id], {'y': -50, 'x': CNVS.cnvs.width, 'width': 50, 'height': CNVS.cnvs.height + 100}, v, true);
+    B = wouldCollide(CNVS.objs[id], {'y': CNVS.cnvs.height, 'x':-50, 'width':CNVS.cnvs.width + 100, 'height': 50}, v, true);
+    return (T || L || R || B);
+}
 
+function wouldCollide(a, b, v, wall=false) {
+    if (!wall) {
+        if (v[1] == 'w') {
+            return (
+                a.x + a.r >= b.x &&
+                a.x <= b.x + b.r &&
+                a.y + a.r >= b.y &&
+                a.y - v[0] <= b.y + b.r
+            );
+        } else if (v[1] == 'a') {
+            return (
+                a.x + a.r >= b.x &&
+                a.x - v[0]  <= b.x + b.r &&
+                a.y + a.r >= b.y &&
+                a.y <= b.y + b.r
+            );
+        } else if (v[1] == 's') {
+            return (
+                a.x + a.r >= b.x &&
+                a.x <= b.x + b.r &&
+                a.y + a.r + v[0] >= b.y &&
+                a.y <= b.y + b.r
+            );
+        } else if (v[1] == 'd') {
+            return (
+                a.x + a.r + v[0] >= b.x &&
+                a.x <= b.x + b.r &&
+                a.y + a.r >= b.y &&
+                a.y <= b.y + b.r
+            );
+        }
+
+    } else {
+        if (v[1] == 'w') {
+            return (
+                a.x + a.r >= b.x &&
+                a.x <= b.x + b.width &&
+                a.y + a.r >= b.y &&
+                a.y - v[0] <= b.y + b.height
+            );
+        } else if (v[1] == 'a') {
+            return (
+                a.x + a.r >= b.x &&
+                a.x - v[0] <= b.x + b.width &&
+                a.y + a.r >= b.y &&
+                a.y <= b.y + b.height
+            );
+        } else if (v[1] == 's') {
+            return (
+                a.x + a.r >= b.x &&
+                a.x <= b.x + b.width &&
+                a.y + a.r + v[0] >= b.y &&
+                a.y <= b.y + b.height
+            );
+        } else if (v[1] == 'd') {
+            return (
+                a.x + a.r + v[0] >= b.x &&
+                a.x <= b.x + b.width &&
+                a.y + a.r >= b.y &&
+                a.y <= b.y + b.height
+            );
+        }
     }
 }
