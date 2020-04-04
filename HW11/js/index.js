@@ -1,18 +1,65 @@
+var objs = {
+    0: {
+        'type': 'rect',
+        'x': 50,
+        'y': 50,
+        'r': 50,
+        'c': '#550000'
+    },
+    1: {
+        'type': 'rect',
+        'x': 50,
+        'y': 200,
+        'r': 50,
+        'c': '#00eeee'
+    },
+    2: {
+        'type': 'rect',
+        'x': 300,
+        'y': 50,
+        'r': 50,
+        'c': '#555555'
+    },
+    3: {
+        'type': 'rect',
+        'x': 200,
+        'y': 150,
+        'r': 50,
+        'c': '#306fe3'
+    },
+    4: {
+        'type': 'rect',
+        'x': 500,
+        'y': 350,
+        'r': 50,
+        'c': '#ff3300'
+    }
+};
+
 class Mycanvas {
     constructor() {
         this.cnvs = document.getElementById('canvas');
         this.context = this.cnvs.getContext('2d');
+        this.objs = {};
         // this.context.translate(0,0);
     }
 
-    setOBJS(json) {
-        console.log(json.objs);
-        this.objs = json.objs;
+    addObj(objs) {
+        // console.log(objs);
+        for (const id in objs) {
+            this.objs[id] = objs[id];
+        }
+        // console.log(this.objs);
     }
-
     // adds shape and changes existing ones
     Shape(id, type, x, y, r, color) {
-        this.objs[id] = {'type':type, 'x':x, 'y':y, 'r':r, 'c':color};
+        this.objs[id] = {
+            'type': type,
+            'x': x,
+            'y': y,
+            'r': r,
+            'c': color
+        };
         // console.log(this.objs);
     }
 
@@ -22,7 +69,7 @@ class Mycanvas {
             this.context.fillRect(this.objs[id].x, this.objs[id].y, this.objs[id].r, this.objs[id].r);
         } else if (this.objs[id].type == 'circle') {
             this.context.fillStyle = this.objs[id].c;
-            this.context.arc(this.objs[id].x, this.objs[id].y, this.objs[id].r, 0, 2*Math.PI, false);
+            this.context.arc(this.objs[id].x, this.objs[id].y, this.objs[id].r, 0, 2 * Math.PI, false);
         }
         this.context.fill();
     }
@@ -37,32 +84,34 @@ class Mycanvas {
         this.context.clearRect(0, 0, this.cnvs.width, this.cnvs.height);
     }
 }
-
 var CNVS = new Mycanvas();
 
-$(document).ready(function(){
-  $.ajax(
-    {
-      type: 'GET',
-      url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
+CNVS.addObj(objs);
 
-      success: function(response)
-      {
-          CNVS.setOBJS(response);
-      },
+$(document).ready(function() {
+    // Couldn't update CNVS.objs from in this function
 
-      failure: function()
-      {
-        alert("AJAX FAILED!");
-      }
-    }
-  );
+    // $.ajax({
+    //     type: 'GET',
+    //     url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
+    //
+    //     success: function(response) {
+    //         console.log(response);
+    //         for (const id in response.objs) {
+    //             CNVS.addObj(id, response.objs[id]);
+    //         }
+    //     },
+    //
+    //     failure: function() {
+    //         alert("AJAX FAILED!");
+    //     }
+    // });
 
-  $(this).keypress(function(event){
-      getKey(event);
-  });
+    $(this).keypress(function(event) {
+        getKey(event);
+    });
 
-  update();
+    // update();
 
 });
 
@@ -70,8 +119,12 @@ $(document).ready(function(){
 function update() {
     CNVS.clear();
     CNVS.drawAll();
-    moveShape(1);
-    // setInterval(update, 1000/60)
+    for (const id in objs) {
+        if (id > 0) {
+            moveShape(id);
+        }
+    }
+    setInterval(update, 1000/60);
 }
 
 // start() not needed if loading a JSON file
@@ -79,44 +132,57 @@ function update() {
 //     // change circle to rect
 //     // CNVS.Shape(0,'rect', 50, 50, 50, "#550000");
 //     // CNVS.Shape(1,'rect', 150, 50, 50, "#00eeee");
-//     // update();
+//     update();
 // }
 
-function moveShape(id) {
-    dir = '';
-    val = 40;
-    x=0;
-    y=0;
-    if (randomWalk(val) > 0) { // decide direction
-        x = randomWalk(val);
-        if (x > 0) {
-            dir = 'd';
+function moveShape(id, speed=0, dir='') {
+    if (id != 0) {
+        val = 40;
+        x = 0;
+        y = 0;
+        if (randomWalk(val) > 0) { // decide direction
+            x = randomWalk(val);
+            if (x > 0) {
+                dir = 'd';
+            } else {
+                dir = 'a';
+            }
+            // speed = x;
         } else {
-            dir = 'a';
+            y = randomWalk(val);
+            if (y > 0) {
+                dir = 's';
+            } else {
+                dir = 'w';
+            }
         }
-        speed = x;
-    } else {
-        y = randomWalk(val);
-        if (y > 0) {
-            dir = 's';
-        } else {
-            dir = 'w';
-        }
-        speed = y;
     }
 
-    if (!collisions(id, [Math.abs(speed), dir])) {
-        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x + x, CNVS.objs[id].y + y, CNVS.objs[id].r, CNVS.objs[id].c);
+    if (speed == 0) {
+        speed = Math.random()/20;
     }
-    // CNVS.drawByID(id)
+
+    if (collisions(id, [speed, dir])) {
+        // console.log(true);
+        speed = -1 * speed;
+    }
+
+    if (dir == 'w') {
+        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x, CNVS.objs[id].y - speed, CNVS.objs[id].r, CNVS.objs[id].c);
+    } else if (dir == 'a') {
+        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x - speed, CNVS.objs[id].y, CNVS.objs[id].r, CNVS.objs[id].c);
+    } else if (dir == 's') {
+        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x, CNVS.objs[id].y + speed, CNVS.objs[id].r, CNVS.objs[id].c);
+    } else if (dir == 'd') {
+        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x + speed, CNVS.objs[id].y, CNVS.objs[id].r, CNVS.objs[id].c);
+    }
 }
 
 function randomWalk(n) {
-    x = (Math.random()*100 % n) + 1;
-    if (x > n/2) {
-        x = x-(n+1) ;
+    x = (Math.random() * 100 % n) + 1;
+    if (x > n / 2) {
+        x = x - (n + 1);
     }
-    // console.log(parseInt(x));
     return parseInt(x);
 }
 
@@ -124,18 +190,8 @@ function getKey(event) {
     var char = event.which || event.keyCode;
     var actualLetter = String.fromCharCode(char);
     // console.log(actualLetter);
-    speed = 5;
-    if (!collisions(0, [speed, actualLetter])) {
-        if (actualLetter == 'w') {
-            CNVS.Shape(0, CNVS.objs[0].type, CNVS.objs[0].x, CNVS.objs[0].y - speed, CNVS.objs[0].r, CNVS.objs[0].c);
-        } else if (actualLetter == 'a') {
-            CNVS.Shape(0, CNVS.objs[0].type, CNVS.objs[0].x - speed, CNVS.objs[0].y, CNVS.objs[0].r, CNVS.objs[0].c);
-        } else if (actualLetter == 's') {
-            CNVS.Shape(0, CNVS.objs[0].type, CNVS.objs[0].x, CNVS.objs[0].y + speed, CNVS.objs[0].r, CNVS.objs[0].c);
-        } else if (actualLetter == 'd') {
-            CNVS.Shape(0, CNVS.objs[0].type, CNVS.objs[0].x + speed, CNVS.objs[0].y, CNVS.objs[0].r, CNVS.objs[0].c);
-        }
-    }
+    speed = 5
+    moveShape(0, speed, actualLetter);
     update();
 }
 
@@ -154,15 +210,36 @@ function collisions(ida, v) {
     }
     return collision;
 }
+
 function wouldCollideWall(id, v) {
-    T = wouldCollide(CNVS.objs[id], {'y': -50, 'x':-50, 'width':CNVS.cnvs.width + 100, 'height':50}, v, true);
-    L = wouldCollide(CNVS.objs[id], {'y': -50, 'x':-50, 'width':50, 'height':CNVS.cnvs.height + 100}, v, true);
-    R = wouldCollide(CNVS.objs[id], {'y': -50, 'x': CNVS.cnvs.width, 'width': 50, 'height': CNVS.cnvs.height + 100}, v, true);
-    B = wouldCollide(CNVS.objs[id], {'y': CNVS.cnvs.height, 'x':-50, 'width':CNVS.cnvs.width + 100, 'height': 50}, v, true);
+    T = wouldCollide(CNVS.objs[id], {
+        'y': -50,
+        'x': -50,
+        'width': CNVS.cnvs.width + 100,
+        'height': 50
+    }, v, true);
+    L = wouldCollide(CNVS.objs[id], {
+        'y': -50,
+        'x': -50,
+        'width': 50,
+        'height': CNVS.cnvs.height + 100
+    }, v, true);
+    R = wouldCollide(CNVS.objs[id], {
+        'y': -50,
+        'x': CNVS.cnvs.width,
+        'width': 50,
+        'height': CNVS.cnvs.height + 100
+    }, v, true);
+    B = wouldCollide(CNVS.objs[id], {
+        'y': CNVS.cnvs.height,
+        'x': -50,
+        'width': CNVS.cnvs.width + 100,
+        'height': 50
+    }, v, true);
     return (T || L || R || B);
 }
 
-function wouldCollide(a, b, v, wall=false) {
+function wouldCollide(a, b, v, wall = false) {
     if (!wall) {
         if (v[1] == 'w') {
             return (
@@ -174,7 +251,7 @@ function wouldCollide(a, b, v, wall=false) {
         } else if (v[1] == 'a') {
             return (
                 a.x + a.r >= b.x &&
-                a.x - v[0]  <= b.x + b.r &&
+                a.x - v[0] <= b.x + b.r &&
                 a.y + a.r >= b.y &&
                 a.y <= b.y + b.r
             );
