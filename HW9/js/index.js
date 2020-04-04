@@ -2,7 +2,7 @@ $(document).ready(function(){
   $.ajax(
     {
       type: 'GET',
-      url: 'http://api.tvmaze.com/singlesearch/shows?q=rick-&-morty&embed=episodes',
+      url: 'https://api.tvmaze.com/singlesearch/shows?q=rick-&-morty&embed=episodes',
 
       success: function(response)
       {
