@@ -4,7 +4,7 @@ $(document).ready(function(){
   $.ajax(
     {
       type: 'GET',
-      url: 'https://hill-boss.github.io/MART-441/HW11/objs.JSON',
+      url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
 
       success: function(response)
       {
