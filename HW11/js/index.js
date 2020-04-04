@@ -1,37 +1,13 @@
-var CNVS
-
-$(document).ready(function(){
-  $.ajax(
-    {
-      type: 'GET',
-      url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
-
-      success: function(response)
-      {
-          CNVS = new Mycanvas(response);
-      },
-
-      failure: function()
-      {
-        alert("AJAX FAILED!");
-      }
-    }
-  );
-
-  $(this).keypress(function(event){
-      getKey(event);
-  });
-
-  update();
-
-});
-
 class Mycanvas {
-    constructor(json) {
+    constructor() {
         this.cnvs = document.getElementById('canvas');
         this.context = this.cnvs.getContext('2d');
-        this.objs = json.objs;
         // this.context.translate(0,0);
+    }
+
+    setOBJS(json) {
+        console.log(json.objs);
+        this.objs = json.objs;
     }
 
     // adds shape and changes existing ones
@@ -61,6 +37,35 @@ class Mycanvas {
         this.context.clearRect(0, 0, this.cnvs.width, this.cnvs.height);
     }
 }
+
+var CNVS = new Mycanvas();
+
+$(document).ready(function(){
+  $.ajax(
+    {
+      type: 'GET',
+      url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
+
+      success: function(response)
+      {
+          CNVS.setOBJS(response);
+      },
+
+      failure: function()
+      {
+        alert("AJAX FAILED!");
+      }
+    }
+  );
+
+  $(this).keypress(function(event){
+      getKey(event);
+  });
+
+  update();
+
+});
+
 
 function update() {
     CNVS.clear();
