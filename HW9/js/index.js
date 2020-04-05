@@ -14,17 +14,22 @@ $(document).ready(function(){
             document.getElementById('genres').innerHTML += '&emsp;' + response['genres'][genre] + '<br>';
         }
         document.getElementById('link').innerHTML = "<a href='" + response['officialSite'] + "'><h4>Official Site</h4></a>";
-        document.getElementById('img').innerHTML = "<img src='" + response['image']['medium'] + "'>";
+        document.getElementById('img').innerHTML = "<img src='" + convertHTTPtoHTTPS(response['image']['medium']) + "'>";
         document.getElementById('summary').innerHTML = response['summary'];
 
         div = document.getElementById('episodes-content');
         data = ''
         eps = response['_embedded']['episodes']
         for (ep in response['_embedded']['episodes']) {
-            // console.log(eps[ep]);
+            console.log('ep = ' + ep + ' image = ' + eps[ep]['image']);
             data += '<h3> S' + eps[ep]['season'] + ' Ep' + eps[ep]['number'] + ': ' + eps[ep]['name'] + '</h3><br>' +
                           'Aired: ' + eps[ep]['airdate'] + '<br>';
-            data += "<img id='" + eps[ep]['season'] + eps[ep]['number'] + "' src='" + eps[ep]['image']['medium'] + "' style='width:auto;'>";
+            data += "<img id='" + eps[ep]['season'] + eps[ep]['number'] + "' src='";
+            if (eps[ep]['image'] != null) {
+                data += convertHTTPtoHTTPS(eps[ep]['image']['medium']) + "' style='width:auto;'>";
+            } else {
+                data += "' style='width:auto;'>";
+            }
             data += "<br>" + eps[ep]['summary'] + "<br><hr>";
         }
         div.innerHTML = data;
@@ -37,6 +42,19 @@ $(document).ready(function(){
     }
   );
 });
+
+function convertHTTPtoHTTPS(url) {
+    original = url;
+    url = url.split('/');
+    url[0] = url[0].split(':');
+    if (url[0][0].toLowerCase() == 'https') {
+        return original;
+    }
+    url[0][0] = 'https';
+    url[0] = url[0].join(':');
+    url = url.join('/');
+    return url;
+}
 
 (function($){
     $.fn.swapImg = function() {
