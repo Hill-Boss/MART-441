@@ -1,6 +1,7 @@
 var objs = {
     0: {
         'type': 'rect',
+        'collect': false,
         'x': 50,
         'y': 50,
         'r': 50,
@@ -8,6 +9,7 @@ var objs = {
     },
     1: {
         'type': 'rect',
+        'collect': false,
         'x': 50,
         'y': 200,
         'r': 50,
@@ -15,13 +17,15 @@ var objs = {
     },
     2: {
         'type': 'rect',
-        'x': 300,
+        'collect': false,
         'y': 50,
+        'x': 300,
         'r': 50,
         'c': '#555555'
     },
     3: {
         'type': 'rect',
+        'collect': false,
         'x': 200,
         'y': 150,
         'r': 50,
@@ -29,11 +33,37 @@ var objs = {
     },
     4: {
         'type': 'rect',
+        'collect': false,
         'x': 500,
         'y': 350,
         'r': 50,
         'c': '#ff3300'
-    }
+    },
+    5: {
+        'type': 'rect',
+        'collect': true,
+        'x': 1000,
+        'y': 350,
+        'r': 25,
+        'c': '#edbe13'
+    },
+    6: {
+        'type': 'rect',
+        'collect': true,
+        'x': 200,
+        'y': 400,
+        'r': 25,
+        'c': '#edbe13'
+    },
+    7: {
+        'type': 'rect',
+        'collect': true,
+        'x': 800,
+        'y': 50,
+        'r': 25,
+        'c': '#edbe13'
+    },
+
 };
 
 class Mycanvas {
@@ -119,7 +149,7 @@ $(document).ready(function() {
 function update() {
     CNVS.clear();
     CNVS.drawAll();
-    for (const id in objs) {
+    for (const id in CNVS.objs) {
         if (id > 0) {
             moveShape(id);
         }
@@ -164,7 +194,7 @@ function moveShape(id, speed=0, dir='') {
 
     if (collisions(id, [speed, dir])) {
         // console.log(true);
-        speed = -1 * speed;
+        speed = 0;
     }
 
     if (dir == 'w') {
@@ -178,12 +208,21 @@ function moveShape(id, speed=0, dir='') {
     }
 }
 
-function randomWalk(n) {
-    x = (Math.random() * 100 % n) + 1;
-    if (x > n / 2) {
-        x = x - (n + 1);
+// TODO: make random movement with weighted direction
+function randomWalk(n, selfCall=false) {
+    x = (Math.floor(Math.random()*n) % n) + 1;
+    if (!selfCall) {
+        if (randomWalk(n, true) > 0) {
+            x = x - 1;
+        } else {
+            x = x + 1;
+        }
     }
-    return parseInt(x);
+    // x = x - (n+1)
+    if (x > n/2) {
+        x = x - (n+1);
+    }
+    return x;
 }
 
 function getKey(event) {
@@ -201,6 +240,10 @@ function collisions(ida, v) {
         if (ida != idb) {
             if (wouldCollide(CNVS.objs[ida], CNVS.objs[idb], v)) {
                 collision = true;
+                if ((ida == 0 && objs[idb].collect)) {
+                    delete CNVS.objs[idb];
+                    incrementScore();
+                }
             }
         }
     }
@@ -302,4 +345,14 @@ function wouldCollide(a, b, v, wall = false) {
             );
         }
     }
+}
+
+function incrementScore() {
+    Score = document.getElementById('score');
+    score = Score.innerHTML;
+    score  = score.split(' ');
+    score[1] = '' + (parseInt(score[1]) + 1);
+    score = score.join(' ');
+    Score.innerHTML = score;
+
 }
