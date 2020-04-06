@@ -1,70 +1,71 @@
-var objs = {
-    0: {
-        'type': 'rect',
-        'collect': false,
-        'x': 50,
-        'y': 50,
-        'r': 50,
-        'c': '#550000'
-    },
-    1: {
-        'type': 'rect',
-        'collect': false,
-        'x': 50,
-        'y': 200,
-        'r': 50,
-        'c': '#00eeee'
-    },
-    2: {
-        'type': 'rect',
-        'collect': false,
-        'y': 50,
-        'x': 300,
-        'r': 50,
-        'c': '#555555'
-    },
-    3: {
-        'type': 'rect',
-        'collect': false,
-        'x': 200,
-        'y': 150,
-        'r': 50,
-        'c': '#306fe3'
-    },
-    4: {
-        'type': 'rect',
-        'collect': false,
-        'x': 500,
-        'y': 350,
-        'r': 50,
-        'c': '#ff3300'
-    },
-    5: {
-        'type': 'rect',
-        'collect': true,
-        'x': 1000,
-        'y': 350,
-        'r': 25,
-        'c': '#edbe13'
-    },
-    6: {
-        'type': 'rect',
-        'collect': true,
-        'x': 200,
-        'y': 400,
-        'r': 25,
-        'c': '#edbe13'
-    },
-    7: {
-        'type': 'rect',
-        'collect': true,
-        'x': 800,
-        'y': 50,
-        'r': 25,
-        'c': '#edbe13'
-    },
-
-};
+// same as in objs.json
+// var objs = {
+//     0: {
+//         'type': 'rect',
+//         'collect': false,
+//         'x': 50,
+//         'y': 50,
+//         'r': 50,
+//         'c': '#550000'
+//     },
+//     1: {
+//         'type': 'rect',
+//         'collect': false,
+//         'x': 50,
+//         'y': 200,
+//         'r': 50,
+//         'c': '#00eeee'
+//     },
+//     2: {
+//         'type': 'rect',
+//         'collect': false,
+//         'y': 50,
+//         'x': 300,
+//         'r': 50,
+//         'c': '#555555'
+//     },
+//     3: {
+//         'type': 'rect',
+//         'collect': false,
+//         'x': 200,
+//         'y': 150,
+//         'r': 50,
+//         'c': '#306fe3'
+//     },
+//     4: {
+//         'type': 'rect',
+//         'collect': false,
+//         'x': 500,
+//         'y': 350,
+//         'r': 50,
+//         'c': '#ff3300'
+//     },
+//     5: {
+//         'type': 'rect',
+//         'collect': true,
+//         'x': 1000,
+//         'y': 350,
+//         'r': 25,
+//         'c': '#edbe13'
+//     },
+//     6: {
+//         'type': 'rect',
+//         'collect': true,
+//         'x': 200,
+//         'y': 400,
+//         'r': 25,
+//         'c': '#edbe13'
+//     },
+//     7: {
+//         'type': 'rect',
+//         'collect': true,
+//         'x': 800,
+//         'y': 50,
+//         'r': 25,
+//         'c': '#edbe13'
+//     },
+//
+// };
 
 class Mycanvas {
     constructor() {
@@ -116,26 +117,24 @@ class Mycanvas {
 }
 var CNVS = new Mycanvas();
 
-CNVS.addObj(objs);
+
 
 $(document).ready(function() {
     // Couldn't update CNVS.objs from in this function
+    //idk if the ajax call is even running
+    $.ajax({
+        type: 'GET',
+        url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
 
-    // $.ajax({
-    //     type: 'GET',
-    //     url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
-    //
-    //     success: function(response) {
-    //         console.log(response);
-    //         for (const id in response.objs) {
-    //             CNVS.addObj(id, response.objs[id]);
-    //         }
-    //     },
-    //
-    //     failure: function() {
-    //         alert("AJAX FAILED!");
-    //     }
-    // });
+        success: function(response) {
+            console.log(response);
+            CNVS.addObj(objs);
+        },
+
+        failure: function() {
+            alert("AJAX FAILED!");
+        }
+    });
 
     $(this).keypress(function(event) {
         getKey(event);
