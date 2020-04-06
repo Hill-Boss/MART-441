@@ -122,13 +122,18 @@ var CNVS = new Mycanvas();
 $(document).ready(function() {
     // Couldn't update CNVS.objs from in this function
     //idk if the ajax call is even running
+    $.get("https://hill-boss.github.io/MART-441/HW11/objs.json", function(data, status){
+        console.log(data);
+        alert("Data: " + data + "\nStatus: " + status);
+    });
     $.ajax({
         type: 'GET',
-        url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
+        url: 'objs.json',
 
         success: function(response) {
+            console.log('SUCCESSSSSS');
             console.log(response);
-            CNVS.addObj(objs);
+            CNVS.addObj(response);
         },
 
         failure: function() {
