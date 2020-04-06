@@ -1,97 +1,19 @@
-// same as in objs.json
-// var objs = {
-//     0: {
-//         'type': 'rect',
-//         'collect': false,
-//         'x': 50,
-//         'y': 50,
-//         'r': 50,
-//         'c': '#550000'
-//     },
-//     1: {
-//         'type': 'rect',
-//         'collect': false,
-//         'x': 50,
-//         'y': 200,
-//         'r': 50,
-//         'c': '#00eeee'
-//     },
-//     2: {
-//         'type': 'rect',
-//         'collect': false,
-//         'y': 50,
-//         'x': 300,
-//         'r': 50,
-//         'c': '#555555'
-//     },
-//     3: {
-//         'type': 'rect',
-//         'collect': false,
-//         'x': 200,
-//         'y': 150,
-//         'r': 50,
-//         'c': '#306fe3'
-//     },
-//     4: {
-//         'type': 'rect',
-//         'collect': false,
-//         'x': 500,
-//         'y': 350,
-//         'r': 50,
-//         'c': '#ff3300'
-//     },
-//     5: {
-//         'type': 'rect',
-//         'collect': true,
-//         'x': 1000,
-//         'y': 350,
-//         'r': 25,
-//         'c': '#edbe13'
-//     },
-//     6: {
-//         'type': 'rect',
-//         'collect': true,
-//         'x': 200,
-//         'y': 400,
-//         'r': 25,
-//         'c': '#edbe13'
-//     },
-//     7: {
-//         'type': 'rect',
-//         'collect': true,
-//         'x': 800,
-//         'y': 50,
-//         'r': 25,
-//         'c': '#edbe13'
-//     },
-//
-// };
-
 class Mycanvas {
     constructor() {
         this.cnvs = document.getElementById('canvas');
         this.context = this.cnvs.getContext('2d');
         this.objs = {};
-        // this.context.translate(0,0);
     }
 
     addObj(objs) {
-        // console.log(objs);
         for (const id in objs) {
             this.objs[id] = objs[id];
         }
-        // console.log(this.objs);
     }
-    // adds shape and changes existing ones
-    Shape(id, type, x, y, r, color) {
-        this.objs[id] = {
-            'type': type,
-            'x': x,
-            'y': y,
-            'r': r,
-            'c': color
-        };
-        // console.log(this.objs);
+    // changes existing ones
+    moveByID(id, x, y) {
+        this.objs[id].x = x;
+        this.objs[id].y = y;
     }
 
     drawByID(id) {
@@ -120,20 +42,11 @@ var CNVS = new Mycanvas();
 
 
 $(document).ready(function() {
-    // Couldn't update CNVS.objs from in this function
-    //idk if the ajax call is even running
-    $.get("https://hill-boss.github.io/MART-441/HW11/objs.json", function(data, status){
-        console.log(data);
-        alert("Data: " + data + "\nStatus: " + status);
-    });
-    
     $.ajax({
         type: 'GET',
-        url: 'objs.json',
+        url: 'https://hill-boss.github.io/MART-441/HW11/objs.json',
 
         success: function(response) {
-            console.log('SUCCESSSSSS');
-            console.log(response);
             CNVS.addObj(response);
         },
 
@@ -145,9 +58,6 @@ $(document).ready(function() {
     $(this).keypress(function(event) {
         getKey(event);
     });
-
-    // update();
-
 });
 
 
@@ -162,13 +72,6 @@ function update() {
     setInterval(update, 1000/60);
 }
 
-// start() not needed if loading a JSON file
-// function start() {
-//     // change circle to rect
-//     // CNVS.Shape(0,'rect', 50, 50, 50, "#550000");
-//     // CNVS.Shape(1,'rect', 150, 50, 50, "#00eeee");
-//     update();
-// }
 
 function moveShape(id, speed=0, dir='') {
     if (id != 0) {
@@ -203,13 +106,13 @@ function moveShape(id, speed=0, dir='') {
     }
 
     if (dir == 'w') {
-        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x, CNVS.objs[id].y - speed, CNVS.objs[id].r, CNVS.objs[id].c);
+        CNVS.moveByID(id, CNVS.objs[id].x, CNVS.objs[id].y - speed);
     } else if (dir == 'a') {
-        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x - speed, CNVS.objs[id].y, CNVS.objs[id].r, CNVS.objs[id].c);
+        CNVS.moveByID(id, CNVS.objs[id].x - speed, CNVS.objs[id].y);
     } else if (dir == 's') {
-        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x, CNVS.objs[id].y + speed, CNVS.objs[id].r, CNVS.objs[id].c);
+        CNVS.moveByID(id, CNVS.objs[id].x, CNVS.objs[id].y + speed);
     } else if (dir == 'd') {
-        CNVS.Shape(id, CNVS.objs[id].type, CNVS.objs[id].x + speed, CNVS.objs[id].y, CNVS.objs[id].r, CNVS.objs[id].c);
+        CNVS.moveByID(id, CNVS.objs[id].x + speed, CNVS.objs[id].y);
     }
 }
 
@@ -245,7 +148,7 @@ function collisions(ida, v) {
         if (ida != idb) {
             if (wouldCollide(CNVS.objs[ida], CNVS.objs[idb], v)) {
                 collision = true;
-                if ((ida == 0 && objs[idb].collect)) {
+                if ((ida == 0 && CNVS.objs[idb].collect)) {
                     delete CNVS.objs[idb];
                     incrementScore();
                 }
